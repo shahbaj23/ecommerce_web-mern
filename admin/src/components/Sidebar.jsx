@@ -20,7 +20,6 @@ export default function Sidebar({ setToken }) {
 
   return (
     <>
-      {/* Hamburger for mobile */}
       <button
         className="md:hidden fixed top-4 left-4 text-white text-3xl z-60"
         onClick={() => setOpen(!open)}

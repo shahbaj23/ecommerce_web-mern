@@ -6,11 +6,12 @@ import {
   ShoppingBagIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../Product/AuthSlice";
 import { fetchCartData } from "../Product/CartSlice";
 import styleNest from "../assets/styleNest.png";
+import { RxCross2 } from "react-icons/rx";
 
 const navigation = {
   pages: [
@@ -25,6 +26,7 @@ export default function Navbar() {
   const [profileMenu, setProfileMenu] = useState(false);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -124,21 +126,6 @@ export default function Navbar() {
                 </>
               )}
             </div>
-
-            {/* <div className="border-t border-gray-200 px-4 py-6">
-              <Link
-                to="/login"
-                className="block text-base font-medium text-gray-800"
-              >
-                Sign in
-              </Link>
-              <Link
-                to="/signup"
-                className="mt-2 block text-base font-medium text-gray-800"
-              >
-                Create account
-              </Link>
-            </div> */}
           </DialogPanel>
         </div>
       </Dialog>
@@ -147,7 +134,6 @@ export default function Navbar() {
       <header className="bg-white">
         <nav className="mx-auto max-w-7xl px-4 lg:px-8">
           <div className="flex h-16 items-center justify-between">
-            {/* OPEN MOBILE MENU */}
             <button
               className="lg:hidden p-2 text-black"
               onClick={() => setOpen(true)}
@@ -175,14 +161,19 @@ export default function Navbar() {
             </div>
 
             <div className="flex items-center gap-6">
-              <MagnifyingGlassIcon className="size-6 text-black cursor-pointer hidden lg:block" />
+              <MagnifyingGlassIcon
+                onClick={() => setSearchOpen(!searchOpen)}
+                className="size-6 text-black cursor-pointer hidden lg:block"
+              />
 
-              {user && <Link to="/cart" className="relative cursor-pointer">
-                <ShoppingBagIcon className="size-6 text-black" />
-                <span className="absolute -top-1 -right-2 text-xs bg-red-600 text-white rounded px-1">
-                  {totleItems}
-                </span>
-              </Link>}
+              {user && (
+                <Link to="/cart" className="relative cursor-pointer">
+                  <ShoppingBagIcon className="size-6 text-black" />
+                  <span className="absolute -top-1 -right-2 text-xs bg-red-600 text-white rounded px-1">
+                    {totleItems}
+                  </span>
+                </Link>
+              )}
 
               <div className="hidden lg:flex items-center space-x-6 pl-6 border-l border-white/30">
                 {user ? (
@@ -237,6 +228,22 @@ export default function Navbar() {
             </div>
           </div>
         </nav>
+        {searchOpen && (
+          <div
+            className="fixed top-20 left-1/2 -translate-x-1/2 bg-[#fcfbfb] w-[380px] flex items-center gap-2 px-3 py-2 border rounded-[18px] shadow-md z-50"
+          >
+            <input
+              type="text"
+              placeholder="Search products..."
+              className="flex-1 bg-transparent outline-none text-sm"
+            />
+
+            <RxCross2
+              className="cursor-pointer text-gray-600 hover:text-black"
+              onClick={() => setSearchOpen(false)}
+            />
+          </div>
+        )}
       </header>
     </div>
   );

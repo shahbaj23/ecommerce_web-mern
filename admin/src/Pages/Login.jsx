@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import axios from 'axios'
 import { backendUrl } from "../App"
 import { toast } from "react-toastify"
@@ -7,6 +7,11 @@ export default function Login({setToken}) {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  useEffect(() => {
+    setEmail("admin@official.com");
+    setPassword("admin@123");
+  }, []);
 
   const onHandleSubmit = async (e)=>{
     e.preventDefault()

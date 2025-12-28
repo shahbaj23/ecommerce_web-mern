@@ -105,7 +105,7 @@ export default function AddProduct({ token }) {
               <img
                 src={!image1 ? uploadProduct : URL.createObjectURL(image1)}
                 alt=""
-                className="w-20 h-20  opacity-70"
+                className="w-20 h-20 opacity-70"
               />
               <input
                 type="file"
