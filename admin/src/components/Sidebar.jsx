@@ -6,7 +6,7 @@ import { FiLogOut, FiMenu } from "react-icons/fi";
 import { useState } from "react";
 
 export default function Sidebar({ setToken }) {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
   const location = useLocation();
 
   const isActive = (path) => location.pathname === path;
@@ -29,13 +29,7 @@ export default function Sidebar({ setToken }) {
 
       {/* Sidebar */}
       <div
-        className={`
-    bg-gray-900 text-white h-full w-64
-    transform transition-transform duration-300
-    z-40
-    ${open ? "translate-x-0" : "-translate-x-full"}
-    md:translate-x-0
-  `}
+        className={`fixed top-0 left-0 h-screen w-64 bg-gray-900 text-white transform transition-transform duration-300 z-40 ${open ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 md:static`}
       >
         <h1 className="text-2xl font-bold mb-8 text-center">Admin Panel</h1>
 

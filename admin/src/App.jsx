@@ -35,7 +35,7 @@ export default function App() {
       </div>
 
       <div className="flex flex-1 overflow-hidden">
-        <div className="w-64 bg-white shrink-0">
+        <div className=" ">
           <Sidebar setToken={setToken} />
         </div>
 
