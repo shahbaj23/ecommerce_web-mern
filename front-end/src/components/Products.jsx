@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchProducts } from "../Product/ProductSlice";
+import { LuLoaderCircle } from "react-icons/lu";
 
 export default function Products() {
   const [viewMore, setViewMore] = useState(16);
@@ -16,7 +17,12 @@ export default function Products() {
     dispatch(fetchProducts());
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading)
+    return (
+      <div className="flex items-center justify-center h-90">
+        <LuLoaderCircle className="animate-spin text-4xl text-black" />
+      </div>
+    );
   if (error) return <p>Error: {error}</p>;
 
   const viewMoreProduct = allProducts.slice(0, viewMore);
@@ -48,11 +54,11 @@ export default function Products() {
                 {product.title}
               </h3>
 
-              <span className="inline-block mt-1 text-xs font-medium text-gray-700 bg-amber-100 px-2 py-1 rounded-full">
+              <span className="inline-block mt-1 text-xs font-medium text-[#d68e80] py-1 rounded-full">
                 {product.category}
               </span>
 
-              <div className="flex justify-between items-center mt-3">
+              <div className="flex justify-between items-center mt-1">
                 <p className="text-lg font-bold text-gray-900">
                   ₹{product.price}
                 </p>

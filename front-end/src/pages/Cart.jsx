@@ -15,8 +15,6 @@ export default function Cart() {
   const { token } = useSelector((state) => state.authentication);
   const products = useSelector((state) => state.products.item);
 
-  console.log("TOKEN:", token);
-
   useEffect(() => {
     if (token) {
       dispatch(fetchCartData({ token }));
@@ -43,7 +41,7 @@ export default function Cart() {
       };
     })
   );
-
+console.log(items)
   const handleQtyChange = (item, value) => {
     const qty = Number(value);
     dispatch(updateCart({ token, itemId: item.id, size: item.size, qty }));
@@ -58,7 +56,7 @@ export default function Cart() {
           Shopping Cart
         </h1>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        {token ? (<div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-8">
             {items.length === 0 ? (
@@ -116,7 +114,7 @@ export default function Cart() {
                         onChange={(e) => handleQtyChange(item, e.target.value)}
                       />
                       <p className="text-green-600 text-sm flex items-center">
-                        ✔ In stock
+                        In stock
                       </p>
                     </div>
                   </div>
@@ -168,7 +166,11 @@ export default function Cart() {
               Checkout
             </Link>
           </div>
-        </div>
+        </div>): (
+          <div>
+            <Link to={"/login"}>Login</Link>
+          </div>
+        )}
       </div>
     </div>
   );

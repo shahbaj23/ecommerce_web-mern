@@ -16,6 +16,8 @@ import Verify from "./pages/Verify";
 import Footer from "./components/Footer";
 import ReturnPolicy from "./pages/RetrunPolicy";
 import AboutUs from "./pages/AboutUs";
+import Contact from "./pages/Contact";
+import ExclusiveOffer from "./pages/ExclusiveOffer";
 
 function App() {
   const dispatch = useDispatch();
@@ -40,6 +42,8 @@ function App() {
         <Route path="/verify" element={<Verify />} />
         <Route path="/return" element={<ReturnPolicy />} />
         <Route path="/about" element={<AboutUs />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/exclusive-offer" element={<ExclusiveOffer />} />
       </Routes>
       <Footer />
     </div>

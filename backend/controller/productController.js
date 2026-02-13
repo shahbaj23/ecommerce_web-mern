@@ -4,10 +4,8 @@ import Product from "../Models/productModel.js";
 // Add Product
 const addProduct = async (req, res) => {
   try {
-    console.log("REQ.FILES =", req.files);
-    console.log("REQ.BODY =", req.body);
 
-    const { title, description, price, category, subCategory, sizes } =
+    const { title, description, price, category, subCategory, sizes, stock } =
       req.body;
 
     const image2 = req.files.image2 && req.files.image2[0];
@@ -20,28 +18,18 @@ const addProduct = async (req, res) => {
     );
 
     const imagesUrl = await Promise.all(
-      images.map(async (item) => {
-        const result = await cloudinary.uploader.upload(
-          `data:${item.mimetype};base64,${item.buffer.toString("base64")}`,
-          { folder: "products" }
-        );
-        return result.secure_url;
+      images.map((item) => {
+        return new Promise((resolve, reject)=>{
+          const stream = cloudinary.uploader.upload_stream(
+            {folder: 'products'}, (error, result)=>{
+              if(error) reject(error);
+              else resolve(result.secure_url)
+            }
+          )
+          stream.end(item.buffer)
+        })
       })
     );
-
-    
-
-    // const imagesUrl = await Promise.all(
-    //   images.map(async (item) => {
-    //     let result = await cloudinary.uploader.upload(item.path, {
-    //       resource_type: "image",
-    //     });
-    //     return result.secure_url;
-    //   })
-    // );
-
-    console.log(imagesUrl);
-    console.log(title, description, price, category, subCategory, sizes);
 
     const productData = {
       title,
@@ -51,10 +39,10 @@ const addProduct = async (req, res) => {
       subCategory,
       sizes: JSON.parse(sizes),
       images: imagesUrl,
+      stock: Number(stock),
       date: Date.now(),
     };
 
-    console.log(productData);
 
     const product = new Product(productData);
 

@@ -12,13 +12,15 @@ import { logout } from "../Product/AuthSlice";
 import { fetchCartData } from "../Product/CartSlice";
 import styleNest from "../assets/styleNest.png";
 import { RxCross2 } from "react-icons/rx";
+import SearchProducts from "../pages/SearchProducts";
+import { isTokenValid } from "../utils/checkToken";
 
 const navigation = {
   pages: [
     { name: "Home", to: "/" },
     { name: "Collection", to: "/collection" },
-    { name: "About", href: "/about" },
-    { name: "Contact", href: "#" },
+    { name: "About", to: "/about" },
+    { name: "Contact", to: "/contact" },
   ],
 };
 
@@ -34,8 +36,10 @@ export default function Navbar() {
   const { cartData } = useSelector((state) => state.cart);
 
   useEffect(() => {
-    if (token) {
+    if (token && isTokenValid(token)) {
       dispatch(fetchCartData({ token }));
+    } else if(token && !isTokenValid(token)){
+      dispatch(logout())
     }
   }, [dispatch, token]);
 
@@ -153,7 +157,7 @@ export default function Navbar() {
                 <Link
                   key={page.name}
                   to={page.to}
-                  className="text-sm font-medium text-black hover:text-gray-200"
+                  className="text-sm font-medium text-black hover:text-[#525252] active:text-[#535353]"
                 >
                   {page.name}
                 </Link>
@@ -163,8 +167,13 @@ export default function Navbar() {
             <div className="flex items-center gap-6">
               <MagnifyingGlassIcon
                 onClick={() => setSearchOpen(!searchOpen)}
-                className="size-6 text-black cursor-pointer hidden lg:block"
+                className="size-6 text-black cursor-pointer lg:block"
               />
+              {searchOpen && (
+                <div className="fixed inset-0 z-50 flex items-start justify-center bg-[#f3eded98] pt-20">
+                  <SearchProducts setSearchOpen={setSearchOpen} />
+                </div>
+              )}
 
               {user && (
                 <Link to="/cart" className="relative cursor-pointer">
@@ -215,7 +224,7 @@ export default function Navbar() {
                     >
                       Sign in
                     </Link>
-                    <span className="h-6 w-px bg-white/40" />
+                    <span className="h-8 w-0.5 bg-[#464646aa]" />
                     <Link
                       to="/signup"
                       className="text-sm font-medium text-black hover:text-gray-200"
@@ -228,10 +237,8 @@ export default function Navbar() {
             </div>
           </div>
         </nav>
-        {searchOpen && (
-          <div
-            className="fixed top-20 left-1/2 -translate-x-1/2 bg-[#fcfbfb] w-[380px] flex items-center gap-2 px-3 py-2 border rounded-[18px] shadow-md z-50"
-          >
+        {/* {searchOpen && (
+          <div className="fixed top-20 left-1/2 -translate-x-1/2 bg-[#fcfbfb] w-[380px] flex items-center gap-2 px-3 py-2 border rounded-[18px] shadow-md z-50">
             <input
               type="text"
               placeholder="Search products..."
@@ -243,7 +250,7 @@ export default function Navbar() {
               onClick={() => setSearchOpen(false)}
             />
           </div>
-        )}
+        )} */}
       </header>
     </div>
   );

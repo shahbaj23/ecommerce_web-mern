@@ -79,7 +79,7 @@ export default function AllProducts({ token }) {
   };
 
   return (
-    <div className="md:ml-64 p-6">
+    <div className="p-6">
       <div className="mx-auto mt-6 flex w-[360px] items-center rounded-full border border-gray-300 bg-white shadow-sm focus-within:border-[#c8958a] focus-within:shadow-md">
         <input
           type="text"

@@ -8,6 +8,7 @@ const productSchema = new Schema({
     subCategory: {type: String, required: true},
     sizes: {type: Array, required: true},
     images: {type: [String], required: true},
+    stock: {type: Number, require: true, default: 0},
     date:{type: Number, required: true}
 })
 

@@ -30,7 +30,7 @@ export default function Sidebar({ setToken }) {
       {/* Sidebar */}
       <div
         className={`
-    bg-gray-900 text-white fixed top-0 left-0 h-full w-64
+    bg-gray-900 text-white h-full w-64
     transform transition-transform duration-300
     z-40
     ${open ? "translate-x-0" : "-translate-x-full"}

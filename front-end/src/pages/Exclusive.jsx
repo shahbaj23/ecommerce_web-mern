@@ -4,6 +4,7 @@ import imgbanner2 from "../assets/imgbanner2.jpg";
 import imgbanner3 from "../assets/imgbanner3.jpg"; 
 
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 export default function Exclusive() {
   const images = [imgbanner1, imgbanner2, imgbanner3];
@@ -22,7 +23,7 @@ export default function Exclusive() {
     if (isPaused) return;
     intervalRef.current = setInterval(() => {
       setIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-    }, 5000);
+    }, 3000);
 
     return () => clearInterval(intervalRef.current);
   }, [images.length, isPaused]);
@@ -67,12 +68,11 @@ export default function Exclusive() {
           <p className="mt-3 text-sm md:text-lg max-w-md">
             Shop now and save big on our exclusive offers! Limited time only.
           </p>
-          <button className="mt-5 inline-block px-5 py-2 cursor-pointer bg-white text-black rounded-lg font-medium shadow-sm">
+          <Link to={"/exclusive-offer"} className="mt-5 inline-block px-5 py-2 cursor-pointer bg-white text-black rounded-lg font-medium shadow-sm">
             View More
-          </button>
+          </Link>
         </div>
 
-        {/* Left / Right buttons */}
         <button
           onClick={prevSlider}
           aria-label="Previous slide"

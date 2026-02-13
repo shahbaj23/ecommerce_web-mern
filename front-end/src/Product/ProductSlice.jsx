@@ -19,7 +19,7 @@ const productSlice = createSlice({
         item: [],
         category: [],
         singleItem: null,
-        productsloading: false,
+        loading: false,
         error: null,
         cart: []
     },
@@ -30,9 +30,9 @@ const productSlice = createSlice({
             state.loading = true;
         })
         .addCase(fetchProducts.fulfilled, (state, action)=>{
-            console.log("API RESPONSE:", action.payload); 
+            // console.log("API RESPONSE:", action.payload); 
             state.item = action.payload;
-            console.log("CATEGORIES:",[new Set(action.payload.map(prod => prod.category))])
+            // console.log("CATEGORIES:",[new Set(action.payload.map(prod => prod.category))])
             state.category= [...new Set(action.payload.map(p => p.category))]
             state.loading = false;
         })

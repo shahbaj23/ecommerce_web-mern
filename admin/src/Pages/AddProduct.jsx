@@ -2,6 +2,7 @@ import { useReducer, useState } from "react";
 import uploadProduct from "../assets/upload_area.png";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -26,6 +27,7 @@ const reducer = (state, action) => {
         subCategory: "",
         price: "",
         sizes: [],
+        stock: ""
       };
 
     default:
@@ -46,7 +48,13 @@ export default function AddProduct({ token }) {
     subCategory: "",
     price: "",
     sizes: [],
+    stock: ""
   });
+
+  useEffect(()=>{
+
+    console.log("Render")
+  },[token])
 
   const handleAddPruduct = async (e) => {
     e.preventDefault();
@@ -59,25 +67,26 @@ export default function AddProduct({ token }) {
       formData.append("subCategory", state.subCategory);
       formData.append("price", state.price);
       formData.append("sizes", JSON.stringify(state.sizes));
+      formData.append("stock", (state.stock));
 
       if (image1) formData.append("image1", image1);
       if (image2) formData.append("image2", image2);
       if (image3) formData.append("image3", image3);
       if (image4) formData.append("image4", image4);
-      console.log(token);
+      // console.log(token);
       const response = await axios.post(
         "http://localhost:3000/api/product/add-product",
         formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data"
+            "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
 
       if (response.data.success) {
-        toast.success(response.data.message);
+        toast(response.data.message);
         setImage1(false);
         setImage2(false);
         setImage3(false);
@@ -86,12 +95,13 @@ export default function AddProduct({ token }) {
         dispatch({ type: "RESET_FORM" });
       }
     } catch (error) {
-      console.log(error.message);
+      console.log(error)
+            throw error.response?.data?.message || "Registration failed";
     }
   };
 
   return (
-    <div className="w-full md:ml-64 p-6">
+    <div className="w-full p-6">
       <h2 className="text-3xl font-bold mb-8">Add New Product</h2>
 
       <form onSubmit={handleAddPruduct} className="flex flex-col gap-8">
@@ -257,6 +267,15 @@ export default function AddProduct({ token }) {
                 }
               />
             </div>
+          </div>
+          <div className="flex flex-col ">
+            <h1>Stocks</h1>
+            <input
+              className="p-2 border border-gray-400 bg-white rounded-lg w-[140px] focus:outline-none focus:ring-1 focus:ring-blue-500"
+              type="number"
+              value={state.stock}
+              onChange={(e)=>dispatch({type: "SET_FIELD", field: "stock", value: e.target.value})}
+            />
           </div>
 
           <div>

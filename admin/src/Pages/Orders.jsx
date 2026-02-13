@@ -47,7 +47,7 @@ export default function Orders({ token }) {
 
   return (
     <>
-      <div className="md:ml-64 p-6">
+      <div className="p-6">
         <div className="mx-auto max-w-7xl px-4">
           <h1 className="text-3xl font-bold mb-8">All Orders</h1>
 

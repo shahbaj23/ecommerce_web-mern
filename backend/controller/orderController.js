@@ -5,10 +5,8 @@ dotenv.config();
 import Stripe from "stripe";
 
 // globalvariables
-
 const currency = "inr";
 const deliveryCharge = 10;
-
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
 const placeOrderCOD = async (req, res) => {

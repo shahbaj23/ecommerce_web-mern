@@ -2,7 +2,6 @@ import User from "../Models/userModel.js";
 
 export const addtoCart = async (req, res) => {
   try {
-    console.log(req.userId);
     const userId = req.userId;
     const { itemId, size } = req.body;
 
@@ -25,13 +24,11 @@ export const addtoCart = async (req, res) => {
 export const updateCart = async(req, res)=>{
   try {
 
-    console.log(req.userId);
     const userId = req.userId;
     const { itemId, size, qty } = req.body;
 
     const userData = await User.findById(userId);
     let cartData = await userData.cartData;
-    console.log(userId, "Hello")
 
     cartData[itemId][size] = qty
 

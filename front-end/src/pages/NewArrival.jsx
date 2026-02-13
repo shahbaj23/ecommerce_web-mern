@@ -5,17 +5,14 @@ export default function NewArrival() {
   return (
     <div className="w-full mt-5 relative">
       <div className="relative">
-        {/* Background Image */}
         <img
           src={arrivals}
           alt="New Arrivals"
           className="w-full h-[450px] object-cover"
         />
 
-        {/* Overlay (dark gradient for better text visibility) */}
         <div className="absolute inset-0 bg-[#ddada3]/10"></div>
 
-        {/* Text Content */}
         <div
           className="
           absolute inset-0 
@@ -35,7 +32,6 @@ export default function NewArrival() {
             Discover the freshest styles and trends just for you.
           </p>
 
-          {/* CTA Button */}
           <button
             className="
               mt-3 px-6 py-2 

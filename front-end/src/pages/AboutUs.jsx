@@ -2,102 +2,102 @@ import React from "react";
 
 export default function AboutUs() {
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-10">
-      <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow p-6 sm:p-10">
-        <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-6 text-center">
-          About Us
-        </h1>
+    <div className="bg-white py-16 px-6 lg:px-20">
+      <div className="max-w-6xl mx-auto">
 
-        <p className="text-gray-600 text-center max-w-3xl mx-auto mb-10">
-          Welcome to <span className="font-semibold">YourStore</span> — your
-          one-stop destination for quality fashion and lifestyle products. We
-          believe shopping should be simple, enjoyable, and affordable.
-        </p>
+        {/* Heading */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            About StyleNest
+          </h1>
+          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            Your ultimate destination for modern, affordable, and high-quality fashion.
+          </p>
+        </div>
 
-        {/* Mission */}
-        <section className="mb-10">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-3">
-            Our Mission
+        {/* Who We Are */}
+        <div className="mb-12">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+            Who We Are
           </h2>
           <p className="text-gray-600 leading-relaxed">
-            Our mission is to provide high-quality products at the best prices
-            while delivering an excellent customer experience. We aim to blend
-            style, comfort, and trust into everything we offer.
+            StyleNest is an innovative eCommerce platform dedicated to bringing
+            the latest fashion trends directly to your doorstep. We believe fashion
+            is more than clothing — it's confidence, personality, and self-expression.
+            Our goal is to create a seamless and enjoyable online shopping experience
+            for everyone.
           </p>
-        </section>
+        </div>
+
+        {/* Mission & Vision Section */}
+        <div className="grid md:grid-cols-2 gap-10 mb-12">
+          <div className="bg-gray-50 p-6 rounded-xl shadow-sm">
+            <h3 className="text-xl font-semibold text-gray-900 mb-3">
+              Our Mission
+            </h3>
+            <p className="text-gray-600 leading-relaxed">
+              To provide premium-quality fashion products at accessible prices
+              while delivering an exceptional, secure, and user-friendly shopping
+              experience.
+            </p>
+          </div>
+
+          <div className="bg-gray-50 p-6 rounded-xl shadow-sm">
+            <h3 className="text-xl font-semibold text-gray-900 mb-3">
+              Our Vision
+            </h3>
+            <p className="text-gray-600 leading-relaxed">
+              To become a trusted and leading eCommerce brand known for
+              innovation, quality, and customer satisfaction.
+            </p>
+          </div>
+        </div>
 
         {/* Why Choose Us */}
-        <section className="mb-10">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-            Why Choose Us
+        <div>
+          <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+            Why Choose StyleNest?
           </h2>
-          <div className="grid sm:grid-cols-2 gap-6">
-            <div className="bg-gray-50 rounded-xl p-5">
-              <h3 className="font-semibold text-gray-800 mb-2">
-                ✔ Premium Quality
-              </h3>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="p-5 border rounded-lg hover:shadow-md transition">
+              <h4 className="font-semibold text-gray-900 mb-2">
+                Quality Assurance
+              </h4>
               <p className="text-gray-600 text-sm">
-                Carefully curated products with strict quality checks.
+                Every product goes through strict quality checks to ensure durability and comfort.
               </p>
             </div>
-            <div className="bg-gray-50 rounded-xl p-5">
-              <h3 className="font-semibold text-gray-800 mb-2">
-                ✔ Affordable Prices
-              </h3>
+
+            <div className="p-5 border rounded-lg hover:shadow-md transition">
+              <h4 className="font-semibold text-gray-900 mb-2">
+                Secure Payments
+              </h4>
               <p className="text-gray-600 text-sm">
-                Best value for money with regular offers and discounts.
+                We use secure authentication and payment gateways to protect your data.
               </p>
             </div>
-            <div className="bg-gray-50 rounded-xl p-5">
-              <h3 className="font-semibold text-gray-800 mb-2">
-                ✔ Secure Payments
-              </h3>
+
+            <div className="p-5 border rounded-lg hover:shadow-md transition">
+              <h4 className="font-semibold text-gray-900 mb-2">
+                Fast Delivery
+              </h4>
               <p className="text-gray-600 text-sm">
-                100% secure payment gateways for safe transactions.
+                Reliable and quick shipping to ensure your products reach you on time.
               </p>
             </div>
-            <div className="bg-gray-50 rounded-xl p-5">
-              <h3 className="font-semibold text-gray-800 mb-2">
-                ✔ Fast Delivery
-              </h3>
+
+            <div className="p-5 border rounded-lg hover:shadow-md transition">
+              <h4 className="font-semibold text-gray-900 mb-2">
+                Customer First
+              </h4>
               <p className="text-gray-600 text-sm">
-                Quick and reliable shipping across all serviceable locations.
+                We prioritize customer satisfaction and provide hassle-free returns.
               </p>
             </div>
           </div>
-        </section>
+        </div>
 
-        {/* Our Story */}
-        <section className="mb-10">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-3">
-            Our Story
-          </h2>
-          <p className="text-gray-600 leading-relaxed">
-            Founded with a passion for fashion and technology, YourStore started
-            as a small idea to make online shopping more customer-friendly.
-            Today, we proudly serve thousands of happy customers and continue to
-            grow every day.
-          </p>
-        </section>
-
-        {/* Contact */}
-        <section className="border-t pt-6">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-3">
-            Get in Touch
-          </h2>
-          <p className="text-gray-600 mb-2">
-            Have questions or feedback? We’d love to hear from you.
-          </p>
-          <p className="text-gray-700 font-medium">
-            📧 Email:
-            <a
-              href="mailto:support@yourstore.com"
-              className="text-indigo-600 ml-1"
-            >
-              support@yourstore.com
-            </a>
-          </p>
-        </section>
       </div>
     </div>
   );

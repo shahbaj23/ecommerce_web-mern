@@ -25,7 +25,7 @@ export const register = createAsyncThunk(
         "http://localhost:3000/api/user/register",
         userData
       );
-      return response.data; // { success, token, user }
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -51,10 +51,8 @@ const AuthSlice = createSlice({
 
     setUserFromStorage: (state) => {
       const storedUser = JSON.parse(localStorage.getItem("user"));
-      console.log(JSON.parse(localStorage.getItem("user")));
       if (storedUser) {
         state.user = storedUser;
-        console.log("Loaded User ID:", storedUser.id); 
       }
     },
 

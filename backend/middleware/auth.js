@@ -3,8 +3,6 @@ import jwt from "jsonwebtoken";
 export const authUser = async (req, res, next) => {
   let token = req.headers.authorization;
 
-  console.log("Incoming Token:", token);
-
   if (!token) {
     return res.status(401).json({ message: "No token provided" });
   }
@@ -13,8 +11,6 @@ export const authUser = async (req, res, next) => {
     token = token.split(" ")[1];
 
     const decoded = jwt.verify(token, process.env.JWT_TOKEN);
-
-    console.log("Decoded Token:", decoded);
 
     req.userId = decoded.id;
     next();

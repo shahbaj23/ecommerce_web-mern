@@ -24,7 +24,6 @@ export default function LastestCollection() {
             className="min-w-[161px] sm:min-w-[180px] md:min-w-[200px] bg-white rounded-xl border border-gray-200 p-3 
                      shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
           >
-            {/* IMAGE */}
             <div className="w-full h-36 sm:h-44 md:h-46 lg:h-48 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
               <img
                 src={product.image}
@@ -33,17 +32,14 @@ export default function LastestCollection() {
               />
             </div>
 
-            {/* TITLE */}
             <h3 className="mt-3 text-[12px] sm:text-[13px] md:text-[15px] font-semibold text-gray-900 line-clamp-2">
               {product.name}
             </h3>
 
-            {/* CATEGORY */}
             <span className="inline-block mt-1 text-xs font-medium text-gray-700 bg-amber-100 px-2 py-1 rounded-full">
               {product.category}
             </span>
 
-            {/* PRICE */}
             <div className="flex justify-between items-center mt-3">
               <p className="text-lg font-bold text-gray-900">
                 ₹{product.price}

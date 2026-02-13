@@ -3,15 +3,24 @@ import axios from "axios";
 
 export const addCart = createAsyncThunk(
   "cart/add-cart",
-  async ({ token, itemId, size }) => {
-    const response = await axios.post(
-      "http://localhost:3000/api/cart/add-cart",
-      { itemId, size },
-      {
-        headers: { Authorization: `Bearer ${token}` },
+  async ({ token, itemId, size }, { dispatch, rejectWithValue }) => {
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/cart/add-cart",
+        { itemId, size },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      return response.data.cartData;
+
+    } catch (error) {
+       if (error.response?.status === 401) {
+        dispatch(logout());
       }
-    );
-    return response.data.cartData;
+      return rejectWithValue(error.response?.data);
+    }
   }
 );
 
