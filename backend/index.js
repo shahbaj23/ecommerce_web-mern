@@ -19,7 +19,14 @@ connectCloudinary()
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static("uploads"));
-app.use(cors())
+app.use(cors({
+  origin: [
+    "http://localhost:5173", // local frontend
+    "https://stylenest-front-end.vercel.app" // deployed frontend
+  ],
+  credentials: true
+}));
+
 
 app.use("/api/user", userRouter)
 app.use("/api/product", productRouter)
