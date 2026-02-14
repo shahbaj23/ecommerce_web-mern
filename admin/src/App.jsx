@@ -31,7 +31,7 @@ export default function App() {
       ) : (
         <div className="h-screen flex flex-col">
       <div className="shrink-0">
-        <Navbar />
+        <Navbar token={token}/>
       </div>
 
       <div className="flex flex-1 overflow-hidden">

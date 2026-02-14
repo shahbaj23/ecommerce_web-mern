@@ -1,6 +1,6 @@
 import express from 'express'
 import { authUser } from '../middleware/auth.js'
-import { allOrders, onlineStripeOrder, placeOrderCOD, status, userOrders, verifyStripe } from '../controller/orderController.js'
+import { allOrders, onlineStripeOrder, orderNotification, placeOrderCOD, status, userOrders, verifyStripe } from '../controller/orderController.js'
 import authAdmin from '../middleware/authAdmin.js'
 
 const orderRouter = express.Router()
@@ -18,5 +18,6 @@ orderRouter.post("/stripe", authUser, onlineStripeOrder)
 orderRouter.get("/userorders/:id", authUser, userOrders)
 
 orderRouter.post("/verifyStripe", authUser, verifyStripe)
+orderRouter.get("/notification", authAdmin, orderNotification)
 
 export default orderRouter

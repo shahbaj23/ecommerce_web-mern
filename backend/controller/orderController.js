@@ -126,7 +126,19 @@ const userOrders = async (req, res) => {
 const status = async (req, res) => {
   try {
     const { orderId, status } = req.body;
-    await orderModel.findByIdAndUpdate(orderId, {status})
+    const order = await orderModel.findByIdAndUpdate(orderId)
+    if (!order) {
+      return res.json({ success: false, message: "Order not found" });
+    }
+
+    order.status = status;
+
+    if(order.paymentMethod === "COD" && status === "Delivered"){
+      order.payment = true;
+    }
+
+    await order.save()
+    
     res.json({success: true, message: "Status Update"})
   } catch (error) {}
 };
@@ -141,4 +153,14 @@ const allOrders = async (req, res) => {
   }
 };
 
-export { placeOrderCOD, status, userOrders, allOrders, onlineStripeOrder, verifyStripe };
+const orderNotification = async (req, res)=>{
+  try {
+    const count = await orderModel.countDocuments({status: "Order Placed"})
+    res.json({success:true, count})
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+}
+
+export { placeOrderCOD, status, userOrders, allOrders, onlineStripeOrder, verifyStripe, orderNotification };
