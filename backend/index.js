@@ -21,8 +21,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static("uploads"));
 app.use(cors({
   origin: [
-    "http://localhost:5173", // local frontend
-    "https://stylenest-front-end.vercel.app" // deployed frontend
+    "http://localhost:5173",
+    "http://localhost:5174", 
+    "https://stylenest-front-end.vercel.app"
   ],
   credentials: true
 }));

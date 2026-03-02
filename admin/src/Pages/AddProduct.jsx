@@ -27,7 +27,16 @@ const reducer = (state, action) => {
         subCategory: "",
         price: "",
         sizes: [],
-        stock: ""
+        stock: "",
+        offers: [],
+      };
+
+    case "TOGGLE_OFFER":
+      return {
+        ...state,
+        offers: state.offers.includes(action.offer)
+          ? state.offers.filter((o) => o !== action.offer)
+          : [...state.offers, action.offer],
       };
 
     default:
@@ -40,6 +49,7 @@ export default function AddProduct({ token }) {
   const [image2, setImage2] = useState(false);
   const [image3, setImage3] = useState(false);
   const [image4, setImage4] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   const [state, dispatch] = useReducer(reducer, {
     title: "",
@@ -48,17 +58,17 @@ export default function AddProduct({ token }) {
     subCategory: "",
     price: "",
     sizes: [],
-    stock: ""
+    stock: "",
+    offers: [],
   });
 
-  useEffect(()=>{
-
-    console.log("Render")
-  },[token])
 
   const handleAddPruduct = async (e) => {
     e.preventDefault();
     try {
+
+      setLoading(true)
+
       const formData = new FormData();
 
       formData.append("title", state.title);
@@ -67,13 +77,14 @@ export default function AddProduct({ token }) {
       formData.append("subCategory", state.subCategory);
       formData.append("price", state.price);
       formData.append("sizes", JSON.stringify(state.sizes));
-      formData.append("stock", (state.stock));
+      formData.append("offers", JSON.stringify(state.offers))
+      formData.append("stock", state.stock);
 
       if (image1) formData.append("image1", image1);
       if (image2) formData.append("image2", image2);
       if (image3) formData.append("image3", image3);
       if (image4) formData.append("image4", image4);
-      // console.log(token);
+      
       const response = await axios.post(
         "http://localhost:3000/api/product/add-product",
         formData,
@@ -95,8 +106,10 @@ export default function AddProduct({ token }) {
         dispatch({ type: "RESET_FORM" });
       }
     } catch (error) {
-      console.log(error)
-            throw error.response?.data?.message || "Registration failed";
+      console.log(error);
+      throw error.response?.data?.message || "Registration failed";
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -274,8 +287,35 @@ export default function AddProduct({ token }) {
               className="p-2 border border-gray-400 bg-white rounded-lg w-[140px] focus:outline-none focus:ring-1 focus:ring-blue-500"
               type="number"
               value={state.stock}
-              onChange={(e)=>dispatch({type: "SET_FIELD", field: "stock", value: e.target.value})}
+              onChange={(e) =>
+                dispatch({
+                  type: "SET_FIELD",
+                  field: "stock",
+                  value: e.target.value,
+                })
+              }
             />
+          </div>
+          <div>
+            <p className="font-semibold text-lg mb-2 text-[#555555]">
+              Product Offers
+            </p>
+
+            <div className="flex gap-2 flex-wrap">
+              {["Exclusive", "Trending", "New Arrival", "Sale"].map((offer) => (
+                <p
+                  key={offer}
+                  onClick={() => dispatch({ type: "TOGGLE_OFFER", offer })}
+                  className={`border px-3 py-1 cursor-pointer rounded-md ${
+                    state.offers.includes(offer)
+                      ? "bg-green-500 text-white"
+                      : "bg-white"
+                  }`}
+                >
+                  {offer}
+                </p>
+              ))}
+            </div>
           </div>
 
           <div>
@@ -299,9 +339,10 @@ export default function AddProduct({ token }) {
         </div>
         <button
           type="submit"
-          className="mt-8 w-[150px] bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition shadow-md"
+          disabled= {loading}
+          className={`mt-8 w-[150px]  text-white px-6 py-3 rounded-lg font-semibold  transition shadow-md ${loading ?"bg-gray-400 cursor-not-allowed": "bg-blue-600 hover:bg-blue-700 cursor-pointer"}`}
         >
-          Add Product
+          {loading ? "Uploading..." : "Add Product"}
         </button>
       </form>
     </div>

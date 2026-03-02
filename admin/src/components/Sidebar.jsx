@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { FaTachometerAlt, FaUsers, FaShoppingBag } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
-import { MdProductionQuantityLimits } from "react-icons/md";
+// import { MdProductionQuantityLimits } from "react-icons/md";
 import { FiLogOut, FiMenu } from "react-icons/fi";
 import { useState } from "react";
 
@@ -12,6 +12,7 @@ export default function Sidebar({ setToken }) {
   const isActive = (path) => location.pathname === path;
 
   const links = [
+    { to: "/dashboard", icon: <FaTachometerAlt />, label: "Dashboard" },
     { to: "/", icon: <FaTachometerAlt />, label: "All Products" },
     { to: "/add-product", icon: <IoMdAdd />, label: "Add Product" },
     { to: "/orders", icon: <FaShoppingBag />, label: "Orders" },
@@ -31,9 +32,6 @@ export default function Sidebar({ setToken }) {
       <div
         className={`fixed top-0 left-0 h-screen w-64 bg-gray-900 text-white transform transition-transform duration-300 z-40 ${open ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 md:static`}
       >
-        <h1 className="text-2xl font-bold mb-8 text-center">Admin Panel</h1>
-
-        {/* Links */}
         <nav className="flex flex-col gap-3">
           {links.map((item) => (
             <Link
