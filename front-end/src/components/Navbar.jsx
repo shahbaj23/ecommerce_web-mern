@@ -72,13 +72,13 @@ export default function Navbar() {
 
             <div className="border-t border-gray-200 px-4 py-6 space-y-4">
               {navigation.pages.map((page) => (
-                <a
+                <Link
                   key={page.name}
-                  href={page.href}
+                  to={page.to}
                   className="block text-base font-medium text-gray-800 cursor-pointer"
                 >
                   {page.name}
-                </a>
+                </Link>
               ))}
             </div>
             <div className="border-t border-gray-200 px-4 py-6 space-y-4">
