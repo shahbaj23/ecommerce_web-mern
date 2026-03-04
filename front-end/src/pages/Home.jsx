@@ -6,6 +6,7 @@ import NewArrival from './NewArrival'
 import LastestCollection from '../components/LastestCollection'
 import OurPolicy from '../components/OurPolicy'
 import RecentlyViewed from './RecentlyViewed'
+import ChatBot from './ChatBot'
 
 function Home() {
   return (
@@ -17,6 +18,10 @@ function Home() {
         <NewArrival />
         <LastestCollection />
         <OurPolicy />
+
+        <div>
+          <ChatBot />
+        </div>
     </div>
   )
 }

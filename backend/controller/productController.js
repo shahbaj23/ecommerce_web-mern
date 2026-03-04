@@ -4,9 +4,16 @@ import Product from "../Models/productModel.js";
 // Add Product
 const addProduct = async (req, res) => {
   try {
-
-    const { title, description, price, category, subCategory, sizes, stock, offers } =
-      req.body;
+    const {
+      title,
+      description,
+      price,
+      category,
+      subCategory,
+      sizes,
+      stock,
+      offers,
+    } = req.body;
 
     const image2 = req.files.image2 && req.files.image2[0];
     const image1 = req.files.image1 && req.files.image1[0];
@@ -14,21 +21,22 @@ const addProduct = async (req, res) => {
     const image4 = req.files.image4 && req.files.image4[0];
 
     const images = [image1, image2, image3, image4].filter(
-      (item) => item !== undefined
+      (item) => item !== undefined,
     );
 
     const imagesUrl = await Promise.all(
       images.map((item) => {
-        return new Promise((resolve, reject)=>{
+        return new Promise((resolve, reject) => {
           const stream = cloudinary.uploader.upload_stream(
-            {folder: 'products'}, (error, result)=>{
-              if(error) reject(error);
-              else resolve(result.secure_url)
-            }
-          )
-          stream.end(item.buffer)
-        })
-      })
+            { folder: "products" },
+            (error, result) => {
+              if (error) reject(error);
+              else resolve(result.secure_url);
+            },
+          );
+          stream.end(item.buffer);
+        });
+      }),
     );
 
     const productData = {
@@ -44,7 +52,6 @@ const addProduct = async (req, res) => {
       date: Date.now(),
     };
 
-
     const product = new Product(productData);
 
     await product.save();
@@ -56,10 +63,72 @@ const addProduct = async (req, res) => {
   }
 };
 
+const updateProducts = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const {
+      title,
+      description,
+      price,
+      category,
+      subCategory,
+      sizes,
+      stock,
+      offers,
+    } = req.body;
+
+    const image1 = req.files.image1 && req.files.image1[0];
+    const image2 = req.files.image2 && req.files.image2[0];
+    const image3 = req.files.image3 && req.files.image3[0];
+    const image4 = req.files.image4 && req.files.image4[0];
+
+    const product = await Product.findById(id);
+
+    const newImages = [image1, image2, image3, image4].filter(Boolean);
+
+    let imagesUrl = product.images;
+
+    if (newImages > 0) {
+      imagesUrl = await Promise.all(
+        newImages.map((item) => {
+          return new Promise((resolve, reject) => {
+            const stream = cloudinary.uploader.upload_stream(
+              { folder: "products" },
+              (err, result) => {
+                if (err) reject(err);
+                else resolve(result.secure_url);
+              },
+            );
+            stream.end(item.buffer);
+          });
+        }),
+      );
+    }
+
+    product.title = title || product.title;
+    product.description = description || product.description;
+    product.price = price || product.price;
+    product.category = category || product.category;
+    product.subCategory = subCategory || product.subCategory;
+    product.sizes = sizes || product.sizes;
+    product.stock = stock || product.stock;
+    product.offers = offers || product.offers;
+    product.images = imagesUrl;
+
+    await product.save();
+
+    res.json({success: true, message: "Product updated successfully" })
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
 // List Product
 const getProducts = async (req, res) => {
   try {
-    const products = await Product.find({}).sort({date: -1});
+    const products = await Product.find({}).sort({ date: -1 });
     res.json({ success: true, products });
   } catch (error) {
     console.log(error.message);
@@ -97,4 +166,4 @@ const getSingleProduct = async (req, res) => {
   }
 };
 
-export { addProduct, getProducts, removeProduct, getSingleProduct };
+export { addProduct, updateProducts, getProducts, removeProduct, getSingleProduct };

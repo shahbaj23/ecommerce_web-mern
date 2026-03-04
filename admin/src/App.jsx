@@ -8,6 +8,7 @@ import Logout from "./Pages/Logout";
 import Login from "./Pages/Login";
 import { ToastContainer, toast } from "react-toastify";
 import AllProducts from "./Pages/AllProducts";
+import Dashboard from "./Pages/Dashboard";
 // import Admin from "./components/Admin";
 // import Home from "./Pages/Home";
 
@@ -44,6 +45,7 @@ export default function App() {
             {/* <Route path="/" element={<Home token={token} />} /> */}
 
             <Route path="/" element={<AllProducts token={token} />} />
+            <Route path="/dashboard" element={<Dashboard />} />
 
             <Route path="/orders" element={<Orders token={token} />} />
 

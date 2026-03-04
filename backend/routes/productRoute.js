@@ -4,6 +4,7 @@ import {
   getProducts,
   getSingleProduct,
   removeProduct,
+  updateProducts,
 } from "../controller/productController.js";
 import upload from "../middleware/multer.js";
 import authAdmin from "../middleware/authAdmin.js";
@@ -21,6 +22,12 @@ productRouter.post(
   ]),
   addProduct
 );
+productRouter.put("/update/:id", authAdmin,  upload.fields([
+    { name: "image1", maxCount: 1 },
+    { name: "image2", maxCount: 1 },
+    { name: "image3", maxCount: 1 },
+    { name: "image4", maxCount: 1 }
+  ]), updateProducts)
 productRouter.get("/product-list", getProducts);
 productRouter.post("/remove-product", authAdmin, removeProduct);
 productRouter.get("/single-product/:id", getSingleProduct);
