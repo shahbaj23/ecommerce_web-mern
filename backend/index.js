@@ -23,7 +23,8 @@ app.use(cors({
   origin: [
     "http://localhost:5173",
     "http://localhost:5174", 
-    "https://stylenest-front-end.vercel.app"
+    "https://stylenest-front-end.vercel.app",
+    "https://ecommerce-admin-panel-woad.vercel.app/"
   ],
   credentials: true
 }));
