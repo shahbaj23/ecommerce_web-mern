@@ -22,7 +22,7 @@ export default function Login({setToken}) {
   const onHandleSubmit = async (e)=>{
     e.preventDefault()
     try {
-      const response = await axios.post(`${API}api/user/admin`, {email, password})
+      const response = await axios.post(`${API}/api/user/admin`, {email, password})
 
       if(response.data.success){
         setToken(response.data.token)
