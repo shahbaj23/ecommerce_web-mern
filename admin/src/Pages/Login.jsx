@@ -3,7 +3,9 @@ import axios from 'axios'
 import { backendUrl } from "../App"
 import { toast } from "react-toastify"
 
-const API = import.meta.env.VITE_API_URL;
+// const API = import.meta.env.VITE_API_URL || "http://localhost:3000/";
+
+const API = import.meta.env.VITE_API_URL || "http://localhost:3000/";
 
 if (!API) {
   throw new Error("VITE_API_URL is not defined");
@@ -22,7 +24,7 @@ export default function Login({setToken}) {
   const onHandleSubmit = async (e)=>{
     e.preventDefault()
     try {
-      const response = await axios.post(`${API}/api/user/admin`, {email, password})
+      const response = await axios.post(`${API}api/user/admin`, {email, password})
 
       if(response.data.success){
         setToken(response.data.token)
@@ -31,7 +33,7 @@ export default function Login({setToken}) {
       }
     } catch (error) {
       console.log(error)
-      toast.error(response.data.message)
+      toast.error(error.response?.data?.message || "Network Error")
     }
   }
 
