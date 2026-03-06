@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { clearCart } from "../Product/CartSlice";
 
-// const API = import.meta.env.VITE_API_URL || "http://localhost:3000/";
+const API = import.meta.env.VITE_API_URL || "http://localhost:3000/";
 
-const API = import.meta.env.VITE_API_URL ;
+// const API = import.meta.env.VITE_API_URL ;
 
 if (!API) {
   throw new Error("VITE_API_URL is not defined");
@@ -41,7 +41,7 @@ export default function Verify() {
         navigate('/cart')
       }
     } catch (error) {
-        console.log(error)
+        console.log(error.response.message)
         // toast
     }
   };

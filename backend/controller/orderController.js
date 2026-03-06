@@ -64,7 +64,7 @@ const onlineStripeOrder = async(req, res)=>{
         },
         unit_amount: item.price * 100
       },
-      quantity: item.qty
+      quantity: item.qty > 0 ? item.qty : 1
     }))
 
     line_items.push({

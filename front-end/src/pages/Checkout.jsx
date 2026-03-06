@@ -72,6 +72,7 @@ export default function CheckoutPage() {
         // payment: onlinePayMethod ? "Online" : "COD",
       };
       dispatch(placeOrder(orderData)).then((res) => {
+        console.log(res);  
         if (!res.error) {
           navigate(`/order/${user.id}`);
         }
