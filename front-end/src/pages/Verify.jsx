@@ -3,6 +3,14 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { clearCart } from "../Product/CartSlice";
+
+// const API = import.meta.env.VITE_API_URL || "http://localhost:3000/";
+
+const API = import.meta.env.VITE_API_URL ;
+
+if (!API) {
+  throw new Error("VITE_API_URL is not defined");
+}
 // import toast from "rea"
 
 export default function Verify() {
@@ -21,7 +29,7 @@ export default function Verify() {
         return null;
       }
       const response = await axios.post(
-        "http://localhost:3000/api/order/verifyStripe", {success, orderID, },
+        `${API}api/order/verifyStripe`, {success, orderID, },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
