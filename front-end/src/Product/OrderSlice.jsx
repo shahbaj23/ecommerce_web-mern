@@ -1,11 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+// const API = import.meta.env.VITE_API_URL || "http://localhost:3000/";
+
+const API = import.meta.env.VITE_API_URL ;
+
+if (!API) {
+  throw new Error("VITE_API_URL is not defined");
+}
+
 export const placeOrder = createAsyncThunk(
   "order/place-order",
   async ({ token, userId, items, amount, address }) => {
     const response = await axios.post(
-      "http://localhost:3000/api/order/place",
+      `${API}api/order/place`,
       { userId, items, amount, address },
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -19,7 +27,7 @@ export const placeOnlineOrder = createAsyncThunk(
   "order/place-stripe",
   async ({ token, userId, items, amount, address }) => {
     const response = await axios.post(
-      "http://localhost:3000/api/order/stripe",
+      `${API}api/order/stripe`,
       { userId, items, amount, address },
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -33,7 +41,7 @@ export const fetchOrders = createAsyncThunk(
   "order/fetch-order",
   async ({ id, token }) => {
     const response = await axios.get(
-      `http://localhost:3000/api/order/userorders/${id}`,
+      `${API}api/order/userorders/${id}`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }

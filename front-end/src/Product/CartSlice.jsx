@@ -1,13 +1,21 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+// const API = import.meta.env.VITE_API_URL || "http://localhost:3000/";
+
+const API = import.meta.env.VITE_API_URL ;
+
+if (!API) {
+  throw new Error("VITE_API_URL is not defined");
+}
+
 export const addCart = createAsyncThunk(
   "cart/add-cart",
   async ({ token, itemId, size }, { dispatch, rejectWithValue }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/cart/add-cart",
+        `${API}api/cart/add-cart`,
         { itemId, size },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -28,7 +36,7 @@ export const fetchCartData = createAsyncThunk(
   "cart/get-cart",
   async ({ token }) => {
     const response = await axios.get(
-      "http://localhost:3000/api/cart/get-cart",
+      `${API}api/cart/get-cart`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -41,7 +49,7 @@ export const deleteCartItem = createAsyncThunk(
   "cart/delete",
   async ({ token, itemId, size }) => {
     const response = await axios.delete(
-      "http://localhost:3000/api/cart/delete",
+      `${API}api/cart/delete`,
       {
         headers: { Authorization: `Bearer ${token}` },
         data: { itemId, size },
@@ -55,7 +63,7 @@ export const updateCart = createAsyncThunk(
   "cart/update-cart",
   async ({ token, itemId, size, qty }) => {
     const response = await axios.post(
-      "http://localhost:3000/api/cart/update-cart",
+      `${API}api/cart/update-cart`,
       { itemId, size, qty },
       {
         headers: { Authorization: `Bearer ${token}` },
