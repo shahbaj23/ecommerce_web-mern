@@ -86,7 +86,7 @@ export default function Login({setToken}) {
           {/* Button */}
           <button
             type="submit"
-            className="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-2 rounded-md text-sm font-semibold shadow-md transition"
+            className="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-2 rounded-md text-sm font-semibold shadow-md transition cursor-pointer"
           >
             Sign In
           </button>

@@ -1,12 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const API = import.meta.env.VITE_API_URL || "http://localhost:3000/";
+
+if (!API) {
+  throw new Error("VITE_API_URL is not defined");
+}
+
 export const userLogin = createAsyncThunk(
   "auth/login",
   async (userData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/user/login",
+        `${API}api/user/login`,
         userData
       );
       console.log(response.data)
@@ -22,7 +28,7 @@ export const register = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/user/register",
+        `${API}api/user/register`,
         userData
       );
       return response.data;
