@@ -1,6 +1,9 @@
-import express from 'express';
 import dotenv from 'dotenv'
+dotenv.config(); 
+
+import express from 'express';
 import cors from 'cors'
+
 const app = express();
 import mongoConnectDb from './db.js'
 import userRouter from './routes/userRoutes.js';
@@ -8,9 +11,6 @@ import productRouter from './routes/productRoute.js';
 import connectCloudinary from './config/cloudinary.js';
 import cartRouter from './routes/cartRoute.js';
 import orderRouter from './routes/orderRouter.js';
-
-dotenv.config(); 
-
 const port = process.env.PORT || 3000;
 
 mongoConnectDb();

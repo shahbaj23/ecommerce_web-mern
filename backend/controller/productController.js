@@ -1,5 +1,7 @@
 import { v2 as cloudinary } from "cloudinary";
 import Product from "../Models/productModel.js";
+import { cosineSimilarity } from "../utils/cosineSimilarity.js";
+import { getEmbedding } from "../utils/getEmbedding.js";
 
 // Add Product
 const addProduct = async (req, res) => {
@@ -39,6 +41,8 @@ const addProduct = async (req, res) => {
       }),
     );
 
+    const embedding = await getEmbedding(`${title} ${description}`);
+
     const productData = {
       title,
       description,
@@ -50,6 +54,7 @@ const addProduct = async (req, res) => {
       images: imagesUrl,
       stock: Number(stock),
       date: Date.now(),
+      embedding,
     };
 
     const product = new Product(productData);
@@ -89,7 +94,7 @@ const updateProducts = async (req, res) => {
 
     let imagesUrl = product.images;
 
-    if (newImages > 0) {
+    if (newImages.length > 0) {
       imagesUrl = await Promise.all(
         newImages.map((item) => {
           return new Promise((resolve, reject) => {
@@ -106,6 +111,10 @@ const updateProducts = async (req, res) => {
       );
     }
 
+    product.embedding = await getEmbedding(
+      `${title || product.title} ${description || product.description}`,
+    );
+
     product.title = title || product.title;
     product.description = description || product.description;
     product.price = price || product.price;
@@ -118,7 +127,7 @@ const updateProducts = async (req, res) => {
 
     await product.save();
 
-    res.json({success: true, message: "Product updated successfully" })
+    res.json({ success: true, message: "Product updated successfully" });
   } catch (error) {
     console.log(error.message);
     res.status(500).json({ success: false, message: "Server Error" });
@@ -166,4 +175,50 @@ const getSingleProduct = async (req, res) => {
   }
 };
 
-export { addProduct, updateProducts, getProducts, removeProduct, getSingleProduct };
+const getSimilarProducts = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const currentProduct = await Product.findById(id);
+
+    if (!currentProduct || !currentProduct.embedding) {
+      return res.status(404).json({
+        message: "Product not found or no embedding",
+      });
+    }
+
+    const allProducts = await Product.find({
+      _id: { $ne: id },
+      category: currentProduct.category,
+      subCategory: currentProduct.subCategory,
+    });
+
+    const productsWithScore = allProducts.map((p) => ({
+      product: p,
+      score: cosineSimilarity(currentProduct.embedding, p.embedding),
+    }));
+
+    const shuffled = productsWithScore
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 20)
+      .sort(() => 0.5 - Math.random());
+
+    const top8 = shuffled.slice(0, 8).map((p) => p.product);
+
+    // const top8 = productsWithScore.slice(0, 8).map((p) => p.product);
+
+    res.status(200).json(top8);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+export {
+  addProduct,
+  updateProducts,
+  getProducts,
+  removeProduct,
+  getSingleProduct,
+  getSimilarProducts,
+};

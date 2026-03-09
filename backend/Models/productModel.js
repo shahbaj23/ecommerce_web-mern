@@ -6,11 +6,12 @@ const productSchema = new Schema({
     price: {type: Number, required: true},
     category: {type: String, required: true},
     subCategory: {type: String, required: true},
-    offers: {type: [String], defualt: []},
+    offers: {type: [String], default: []},
     sizes: {type: Array, required: true},
     images: {type: [String], required: true},
-    stock: {type: Number, require: true, default: 0},
-    date:{type: Number, required: true}
+    stock: {type: Number, required: true, default: 0},
+    date:{type: Number, required: true},
+    embedding: {type: Array}
 })
 
 const Product = mongoose.model('Product', productSchema)

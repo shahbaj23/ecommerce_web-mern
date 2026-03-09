@@ -24,12 +24,6 @@ export default function ChatBot() {
             </div>
           </div>
 
-          <div className="flex-1 p-3 right-0 overflow-y-auto text-sm">
-            <div className="bg-gray-100 p-2 rounded-lg mb-2 w-fit">
-              Hello 👋 How can I help you?
-            </div>
-          </div>
-
           <div className="p-2 border-t flex">
             <input
               type="text"

@@ -2,6 +2,7 @@ import express from "express";
 import {
   addProduct,
   getProducts,
+  getSimilarProducts,
   getSingleProduct,
   removeProduct,
   updateProducts,
@@ -31,5 +32,7 @@ productRouter.put("/update/:id", authAdmin,  upload.fields([
 productRouter.get("/product-list", getProducts);
 productRouter.post("/remove-product", authAdmin, removeProduct);
 productRouter.get("/single-product/:id", getSingleProduct);
+
+productRouter.get("/similar-product/:id", getSimilarProducts)
 
 export default productRouter

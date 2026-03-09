@@ -3,7 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { singleFetchProduct } from "../Product/ProductSlice";
 import { addCart } from "../Product/CartSlice";
-import RelatedProducts from "./RelatedProducts";
+// import RelatedProducts from "./RelatedProducts";
+// import AiRecommendation from "./AiRecommendation";
+import { lazy } from "react";
+import { Suspense } from "react";
+import ProductSkeleton from "../skeleton/ProductSkeleton";
+
+const RelatedProducts = lazy(() => import("./RelatedProducts"));
+const AiRecommendation = lazy(() => import("./AiRecommendation"));
 
 export default function ProductDetail() {
   const [activeImage, setActiveImage] = useState("");
@@ -50,8 +57,8 @@ export default function ProductDetail() {
   }, [product]);
 
   const handleCart = () => {
-    if(product.stock <= 0){
-      return err("Product is out of stock")
+    if (product.stock <= 0) {
+      return setErr("Product is out of stock");
     }
 
     if (!token) {
@@ -162,7 +169,12 @@ export default function ProductDetail() {
         </div>
       </div>
       <hr className="mt-10" />
-      <RelatedProducts category={product.category} id={product._id} />
+      <Suspense fallback={<ProductSkeleton />}>
+        <AiRecommendation id={product._id} />
+      </Suspense>
+      <Suspense fallback={<ProductSkeleton />}>
+        <RelatedProducts category={product.category} id={product._id} />
+      </Suspense>
     </div>
   );
 }

@@ -20,15 +20,30 @@ export const singleFetchProduct = createAsyncThunk("products/singleFetchProduct"
 
 })
 
+export const fetchSimilarProduct = createAsyncThunk(
+    "products/fetchSimilarProduct",
+    async(id)=>{
+        const response = await axios.get(`${API}api/product/similar-product/${id}`);
+        return response.data
+    }
+)
+
 const productSlice = createSlice({
     name: "products",
     initialState: {
         item: [],
         category: [],
         singleItem: null,
+        similarProduct: [],
         loading: false,
+        loadingSimilar: false,
         error: null,
         cart: []
+    },
+    reducers:{
+        clearSimilarProducts: (state)=>{
+            state.similarProduct = []
+        }
     },
 
     extraReducers: (builder) =>{
@@ -60,7 +75,20 @@ const productSlice = createSlice({
             state.error = action.error.message
             state.loading = false
         })
+        .addCase(fetchSimilarProduct.pending, (state)=>{
+            state.loadingSimilar = true
+        })
+        .addCase(fetchSimilarProduct.fulfilled, (state,action)=>{
+            state.similarProduct = action.payload;
+            state.loadingSimilar = false
+        })
+        .addCase(fetchSimilarProduct.rejected, (state, action)=>{
+            state.error = action.error.message
+            state.loadingSimilar = false
+        })
     }
 })
 
 export default productSlice.reducer;
+
+export const { clearSimilarProducts } = productSlice.actions;

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchProducts } from "../Product/ProductSlice";
 import { LuLoaderCircle } from "react-icons/lu";
+import ProductSkeleton from "../skeleton/ProductSkeleton";
 
 export default function Products() {
   const [viewMore, setViewMore] = useState(16);
@@ -17,15 +18,28 @@ export default function Products() {
     dispatch(fetchProducts());
   }, []);
 
-  if (loading)
-    return (
-      <div className="flex items-center justify-center h-90">
-        <LuLoaderCircle className="animate-spin text-4xl text-black" />
-      </div>
-    );
   if (error) return <p>Error: {error}</p>;
 
   const viewMoreProduct = allProducts.slice(0, viewMore);
+
+  if (loading)
+  return (
+    <div className="bg-white">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+
+        <h2 className="text-[32px] font-bold text-center text-slate-800 mb-8">
+          Products
+        </h2>
+
+        <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
+          {[...Array(8)].map((_, i) => (
+            <ProductSkeleton key={i} />
+          ))}
+        </div>
+
+      </div>
+    </div>
+  );
 
   return (
     <div className="bg-white">
