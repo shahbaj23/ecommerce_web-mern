@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import axios from 'axios'
-import { backendUrl } from "../App"
 import { toast } from "react-toastify"
 
 const API = import.meta.env.VITE_API_URL || "http://localhost:3000";
