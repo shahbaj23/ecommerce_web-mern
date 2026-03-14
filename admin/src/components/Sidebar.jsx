@@ -1,7 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { FaTachometerAlt, FaUsers, FaShoppingBag } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
-// import { MdProductionQuantityLimits } from "react-icons/md";
 import { FiLogOut, FiMenu } from "react-icons/fi";
 import { useState } from "react";
 
@@ -12,8 +11,8 @@ export default function Sidebar({ setToken }) {
   const isActive = (path) => location.pathname === path;
 
   const links = [
-    { to: "/dashboard", icon: <FaTachometerAlt />, label: "Dashboard" },
-    { to: "/", icon: <FaTachometerAlt />, label: "All Products" },
+    { to: "/", icon: <FaTachometerAlt />, label: "Dashboard" },
+    { to: "/all-product", icon: <FaTachometerAlt />, label: "All Products" },
     { to: "/add-product", icon: <IoMdAdd />, label: "Add Product" },
     { to: "/orders", icon: <FaShoppingBag />, label: "Orders" },
     { to: "/users", icon: <FaUsers />, label: "Users" },
@@ -21,40 +20,48 @@ export default function Sidebar({ setToken }) {
 
   return (
     <>
+      {/* Mobile Menu Button */}
       <button
-        className="md:hidden fixed top-4 left-4 text-white text-3xl z-60"
-        onClick={() => setOpen(!open)}
+        className="md:hidden fixed top-4 left-4 text-gray-800 text-3xl z-50"
+        onClick={() => setOpen(true)}
       >
         <FiMenu />
       </button>
 
-      {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-screen w-64 bg-gray-900 text-white transform transition-transform duration-300 z-40 ${open ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 md:static`}
+        className={`fixed top-16 left-0 h-[calc(100vh-4rem)] w-64 bg-white shadow-lg flex flex-col transform transition-transform duration-300 z-40
+  ${open ? "translate-x-0" : "-translate-x-full"}
+  md:translate-x-0`}
       >
-        <nav className="flex flex-col gap-3">
+        {/* Links Section */}
+        <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-2">
           {links.map((item) => (
             <Link
               key={item.to}
               to={item.to}
-              className={`flex items-center gap-3 p-3 rounded-lg text-lg
-                ${isActive(item.to) ? "bg-gray-600" : "hover:bg-gray-700"}
-              `}
+              onClick={() => setOpen(false)}
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all
+              ${
+                isActive(item.to)
+                  ? "bg-gray-200 text-[#d48575] font-semibold border-l-4 border-[#ddada3]"
+                  : "text-gray-700 hover:bg-gray-100"
+              }`}
             >
               {item.icon}
               {item.label}
             </Link>
           ))}
-        </nav>
+        </div>
 
-        {/* Logout */}
-        <button
-          onClick={() => setToken("")}
-          className="mt-auto bg-red-600 hover:bg-red-700 p-3 w-full rounded-lg flex items-center gap-3"
-        >
-          <FiLogOut />
-          Logout
-        </button>
+        <div className="p-4 border-t">
+          <button
+            onClick={() => setToken("")}
+            className="w-full bg-red-500 hover:bg-red-600 text-white py-3 rounded-lg flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <FiLogOut />
+            Logout
+          </button>
+        </div>
       </div>
     </>
   );

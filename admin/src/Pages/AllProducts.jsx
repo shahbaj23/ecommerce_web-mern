@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 
 export default function AllProducts({ token }) {
   const [allProducts, setAllProducts] = useState([]);
-  const [search, setSearch] = useState("")
+  const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
   const fetchAllProduct = async () => {
@@ -18,13 +18,11 @@ export default function AllProducts({ token }) {
           },
         }
       );
+
       if (response.data.success) {
         setAllProducts(response.data.products);
-      } else {
-        toast.error(response.data.error);
       }
     } catch (error) {
-      console.log(error.message);
       toast.error(error.message);
     }
   };
@@ -44,136 +42,187 @@ export default function AllProducts({ token }) {
           },
         }
       );
+
       if (response.data.success) {
         toast.success(response.data.message);
-        await fetchAllProduct();
-      } else {
-        toast.error(response.data.error);
+        fetchAllProduct();
       }
     } catch (error) {
-      console.log(error.message);
       toast.error(error.message);
     }
   };
 
-  const filterSearchProducts = allProducts.filter((product)=> 
+  const filtered = allProducts.filter((product) =>
     product.title.toLowerCase().includes(search.toLowerCase())
-  )
+  );
 
-  
   const itemsPage = 8;
-
   const lastIndex = currentPage * itemsPage;
   const firstIndex = lastIndex - itemsPage;
 
-  const currentItems = filterSearchProducts.slice(firstIndex, lastIndex);
-
-  const totalPages = Math.ceil(allProducts.length / itemsPage);
-
-  const nextPage = () => {
-    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-  };
-
-  const prevPage = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
-  };
+  const currentItems = filtered.slice(firstIndex, lastIndex);
+  const totalPages = Math.ceil(filtered.length / itemsPage);
 
   return (
-    <div className="p-6">
-      <div className="mx-auto mt-6 flex w-[360px] items-center rounded-full border border-gray-300 bg-white shadow-sm focus-within:border-[#c8958a] focus-within:shadow-md">
+    <div className="p-4 md:p-6 bg-gray-50 min-h-screen">
+
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
+        <h2 className="text-2xl font-bold text-gray-800">All Products</h2>
+
         <input
           type="text"
+          placeholder="Search product..."
           value={search}
-          onChange={(e)=> setSearch(e.target.value)}
-          placeholder="Search products..."
-          className="w-full rounded-l-full bg-transparent px-4 py-2 text-[15px] outline-none"
+          onChange={(e) => setSearch(e.target.value)}
+          className="border border-gray-300 rounded-lg px-4 py-2 w-full md:w-72 focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
-        <button className="rounded-r-full bg-[#c8958a] cursor-pointer px-5 py-2 text-white font-medium hover:bg-[#b67e73] transition">
-          Search
-        </button>
       </div>
 
-      <h2 className="text-2xl font-semibold mb-4">All Products</h2>
+      {/* MOBILE PRODUCT CARDS */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:hidden">
 
-      <div className="w-full overflow-x-auto p-1 rounded-lg">
-        <table className="w-full border-none text-left">
-          <thead className="bg-[#c8958a] text-white">
+        {currentItems.map((item) => (
+          <div
+            key={item._id}
+            className="bg-white rounded-xl shadow-sm border p-4"
+          >
+            <img
+              src={item.images[0]}
+              className="w-full h-40 object-cover rounded-lg mb-3"
+            />
+
+            <h3 className="font-semibold text-gray-800">{item.title}</h3>
+
+            <p className="text-sm text-gray-500">
+              {item.category} • {item.subCategory}
+            </p>
+
+            <p className="text-green-600 font-bold mt-2">
+              ₹{item.price}
+            </p>
+
+            <div className="flex gap-3 mt-3">
+              <button className="flex-1 bg-blue-500 text-white py-1 rounded-md text-sm">
+                Edit
+              </button>
+
+              <button
+                onClick={() => removeProduct(item._id)}
+                className="text-red-500 text-xl"
+              >
+                <MdDelete />
+              </button>
+            </div>
+          </div>
+        ))}
+
+      </div>
+
+      {/* DESKTOP TABLE */}
+      <div className="hidden md:block bg-white rounded-xl shadow border overflow-x-auto">
+
+        <table className="w-full text-sm">
+
+          <thead className="bg-gray-100 text-gray-600">
             <tr>
-              <th className="p-1 ">Image</th>
-              <th colSpan={2} className="p-1 ">
-                Title
-              </th>
-              <th className="p-1 ">Category</th>
-              <th className="p-1 ">Sub Category</th>
-              <th className="p-1 ">Price</th>
-              <th className="p-1 ">Action</th>
+              <th className="p-4">Image</th>
+              <th className="p-4">Title</th>
+              <th className="p-4">Category</th>
+              <th className="p-4">Sub Category</th>
+              <th className="p-4">Price</th>
+              <th className="p-4 text-center">Action</th>
             </tr>
           </thead>
 
           <tbody>
-            {currentItems.map((item, i) => (
-              <tr key={i} className="border-b  border-gray-500 py-5">
-                <td className="p-3">
+
+            {currentItems.map((item) => (
+              <tr
+                key={item._id}
+                className="border-t hover:bg-gray-50"
+              >
+
+                <td className="p-4">
                   <img
-                    className="w-[50px] h-[50px] object-cover"
                     src={item.images[0]}
-                    alt="Image"
+                    className="w-12 h-12 rounded object-cover"
                   />
                 </td>
-                <td colSpan={2} className="p-3">
-                  {item.title}
+
+                <td className="p-4 font-medium">{item.title}</td>
+
+                <td className="p-4">{item.category}</td>
+
+                <td className="p-4">{item.subCategory}</td>
+
+                <td className="p-4 text-green-600 font-semibold">
+                  ₹{item.price}
                 </td>
-                <td className="p-3 ">{item.category}</td>
-                <td className="p-3 ">{item.subCategory}</td>
-                <td className="p-3 ">{item.price}</td>
-                <td className="p-3">
-                  <div className="flex justify-center items-center gap-2">
-                    <button className="bg-[#ddada3] px-2 text-white text-[13px]">
+
+                <td className="p-4 text-center">
+
+                  <div className="flex justify-center gap-3">
+
+                    <button className="bg-blue-500 text-white px-3 py-1 rounded text-xs">
                       Edit
                     </button>
+
                     <button
                       onClick={() => removeProduct(item._id)}
-                      className="cursor-pointer text-lg"
+                      className="text-red-500 text-xl"
                     >
                       <MdDelete />
                     </button>
+
                   </div>
+
                 </td>
+
               </tr>
             ))}
-          </tbody>
-        </table>
-        <div className="text-center my-10">
-          <button
-            onClick={prevPage}
-            disabled={currentPage === 1}
-            className="px-3 py-1 bg-gray-300 cursor-pointer rounded disabled:opacity-50"
-          >
-            Previous
-          </button>
-          {[...Array(totalPages)].map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentPage(index + 1)}
-              className={`px-3 py-1 rounded mx-1 cursor-pointer ${
-                currentPage === index + 1
-                  ? "bg-[#c8958a] text-white"
-                  : "bg-gray-200"
-              }`}
-            >
-              {index + 1}
-            </button>
-          ))}
 
-          <button
-            className="px-3 py-1 bg-gray-300 rounded cursor-pointer disabled:opacity-50"
-            onClick={nextPage}
-            disabled={currentPage === totalPages}
-          >
-            Next
-          </button>
-        </div>
+          </tbody>
+
+        </table>
+
       </div>
+
+      {/* Pagination */}
+      <div className="flex justify-center mt-6 flex-wrap gap-2">
+
+        <button
+          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+        >
+          Prev
+        </button>
+
+        {[...Array(totalPages)].map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentPage(index + 1)}
+            className={`px-3 py-1 rounded ${
+              currentPage === index + 1
+                ? "bg-blue-500 text-white"
+                : "bg-gray-200"
+            }`}
+          >
+            {index + 1}
+          </button>
+        ))}
+
+        <button
+          onClick={() => setCurrentPage(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+        >
+          Next
+        </button>
+
+      </div>
+
     </div>
   );
 }

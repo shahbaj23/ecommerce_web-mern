@@ -36,24 +36,22 @@ export default function App() {
       </div>
 
       <div className="flex flex-1 overflow-hidden">
-        <div className=" ">
-          <Sidebar setToken={setToken} />
-        </div>
 
-        <div className="flex-1 bg-[#f5f4f4] overflow-y-auto p-6">
-          <Routes>
-            {/* <Route path="/" element={<Home token={token} />} /> */}
+  {/* Sidebar */}
+  <Sidebar setToken={setToken} />
 
-            <Route path="/" element={<AllProducts token={token} />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+  {/* Main Content */}
+  <div className="flex-1 bg-[#f5f4f4] overflow-y-auto p-6 md:ml-64">
+    <Routes>
+      <Route path="/" element={<Dashboard />} />
+      <Route path="/all-product" element={<AllProducts token={token} />} />
+      <Route path="/orders" element={<Orders token={token} />} />
+      <Route path="/add-product" element={<AddProduct token={token} />} />
+      <Route path="/logout" element={<Logout />} />
+    </Routes>
+  </div>
 
-            <Route path="/orders" element={<Orders token={token} />} />
-
-            <Route path="/add-product" element={<AddProduct token={token} />} />
-            <Route path="/logout" element={<Logout />} />
-          </Routes>
-        </div>
-      </div>
+</div>
     </div>
       )}
     </>

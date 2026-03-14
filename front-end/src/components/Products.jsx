@@ -16,7 +16,7 @@ export default function Products() {
 
   useEffect(() => {
     dispatch(fetchProducts());
-  }, []);
+  }, [dispatch]);
 
   if (error) return <p>Error: {error}</p>;
 

@@ -135,4 +135,18 @@ const adminLogin = async (req, res) => {
   }
 };
 
-export { login, register, adminLogin };
+const getUsers = async(req, res)=>{
+  try {
+    const users = await User.countDocuments();
+
+    res.json({
+      success: true,
+      totalUsers: users
+    })
+  } catch (error) {
+    console.log(error.message)
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+}
+
+export { login, register, adminLogin, getUsers };

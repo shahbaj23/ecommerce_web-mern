@@ -5,6 +5,7 @@ import {
   getSimilarProducts,
   getSingleProduct,
   removeProduct,
+  totalProducts,
   updateProducts,
 } from "../controller/productController.js";
 import upload from "../middleware/multer.js";
@@ -34,5 +35,7 @@ productRouter.post("/remove-product", authAdmin, removeProduct);
 productRouter.get("/single-product/:id", getSingleProduct);
 
 productRouter.get("/similar-product/:id", getSimilarProducts)
+
+productRouter.get("/get-total-product", totalProducts)
 
 export default productRouter

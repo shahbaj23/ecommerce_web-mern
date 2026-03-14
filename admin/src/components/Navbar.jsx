@@ -3,62 +3,96 @@ import { IoSearch } from "react-icons/io5";
 import { FaUserCircle } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import Notification from "../Pages/Notification";
-import axios from "axios"
+import axios from "axios";
 
-export default function Navbar({token}) {
+export default function Navbar({ token }) {
 
-  const [showNotify, setShowNotify] = useState(null)
+  const [showNotify, setShowNotify] = useState(false);
   const [notification, setNotification] = useState(0);
 
-  const fetchNotification = async ()=>{
+  const fetchNotification = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/order/notification", {
-        headers: {
-          Authorization: `Bearer ${token}`
+      const res = await axios.get(
+        "http://localhost:3000/api/order/notification",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      })
-      setNotification(res.data.count)
+      );
+
+      setNotification(res.data.count);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
-  useEffect(()=>{
-    fetchNotification()
-    const interval = setInterval(fetchNotification, 5000)
+  useEffect(() => {
+    fetchNotification();
 
-    return()=> clearInterval(interval)
-  }, [])
+    const interval = setInterval(fetchNotification, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <div className="w-full h-16 bg-gray-800 text-white flex justify-end sticky top-0 z-50 items-center px-6 pl-16  shadow-md">
-      {/* <div className="flex items-center bg-gray-700 px-3 py-2 rounded-lg w-1/3">
-        <IoSearch className="text-xl text-gray-300" />
-        <input
-          type="text"
-          placeholder="Search..."
-          className="bg-transparent ml-2 outline-none text-sm w-full"
-        />
-      </div> */}
+    <div className="w-full h-16 flex justify-between items-center px-6 bg-white border-b shadow-sm sticky top-0 z-50">
+
+      <h1 className="text-lg font-semibold text-gray-700">
+        Admin Dashboard
+      </h1>
 
       <div className="flex items-center gap-6">
 
-        <button onClick={()=> setShowNotify(!showNotify)} className="relative cursor-pointer">
-          <FaBell className="text-xl" />
-          <span className="absolute -top-2 -right-2 bg-red-500 text-xs rounded-full px-1">
-            {notification}
-          </span>
-        </button>
-        {
-          showNotify && <Notification showNotify={showNotify} token={token} />
-        }
+        <div className="hidden md:flex items-center bg-gray-100 px-3 py-2 rounded-lg">
+          <IoSearch className="text-gray-500 text-lg" />
+          <input
+            type="text"
+            placeholder="Search..."
+            className="bg-transparent outline-none ml-2 text-sm"
+          />
+        </div>
 
-        <div className="flex items-center gap-2 cursor-pointer">
-          <FaUserCircle className="text-3xl" />
-          <span className="text-sm font-medium">Admin</span>
+        <div className="relative">
+
+          <button
+            onClick={() => setShowNotify(!showNotify)}
+            className="relative p-2 rounded-full hover:bg-gray-100 transition"
+          >
+            <FaBell className="text-xl text-gray-700" />
+
+            {notification > 0 && (
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full">
+                {notification}
+              </span>
+            )}
+          </button>
+
+          {showNotify && (
+            <div className="absolute right-0 mt-3 w-72 bg-white rounded-xl shadow-lg border p-3">
+              <Notification showNotify={showNotify} token={token} />
+            </div>
+          )}
+
+        </div>
+
+        <div className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 px-3 py-1 rounded-lg transition">
+
+          <FaUserCircle className="text-3xl text-gray-500" />
+
+          <div className="flex flex-col leading-tight">
+            <span className="text-sm font-medium">
+              Admin
+            </span>
+            <span className="text-xs text-gray-400">
+              Super Admin
+            </span>
+          </div>
+
         </div>
 
       </div>
+
     </div>
   );
 }

@@ -175,6 +175,20 @@ const getSingleProduct = async (req, res) => {
   }
 };
 
+const totalProducts =async(req, res)=>{
+  try {
+    const totalProducts = await Product.countDocuments();
+
+    res.json({
+      success: true,
+      totalProducts
+    })
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+}
+
 const getSimilarProducts = async (req, res) => {
   try {
     const { id } = req.params;
@@ -221,4 +235,5 @@ export {
   removeProduct,
   getSingleProduct,
   getSimilarProducts,
+  totalProducts
 };

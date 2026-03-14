@@ -41,7 +41,8 @@ export default function Cart() {
       };
     })
   );
-console.log(items)
+
+  
   const handleQtyChange = (item, value) => {
     const qty = Number(value);
     dispatch(updateCart({ token, itemId: item.id, size: item.size, qty }));

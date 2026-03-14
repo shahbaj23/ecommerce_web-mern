@@ -7,7 +7,7 @@ import Stripe from "stripe";
 // globalvariables
 const currency = "inr";
 const deliveryCharge = 10;
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const placeOrderCOD = async (req, res) => {
   try {
@@ -36,11 +36,10 @@ const placeOrderCOD = async (req, res) => {
   }
 };
 
-const onlineStripeOrder = async(req, res)=>{
+const onlineStripeOrder = async (req, res) => {
   try {
-    
     const { userId, items, amount, address } = req.body;
-    const {origin} = req.headers
+    const { origin } = req.headers;
 
     const orderData = {
       userId,
@@ -56,59 +55,58 @@ const onlineStripeOrder = async(req, res)=>{
 
     await newOrder.save();
 
-    const line_items = items.map((item)=>({
+    const line_items = items.map((item) => ({
       price_data: {
         currency: currency,
         product_data: {
-          name: item.title
+          name: item.title,
         },
-        unit_amount: item.price * 100
+        unit_amount: item.price * 100,
       },
-      quantity: item.qty > 0 ? item.qty : 1
-    }))
+      quantity: item.qty > 0 ? item.qty : 1,
+    }));
 
     line_items.push({
       price_data: {
         currency: currency,
         product_data: {
-          name: "Delivery Charges"
+          name: "Delivery Charges",
         },
-        unit_amount: deliveryCharge * 100
+        unit_amount: deliveryCharge * 100,
       },
-      quantity: 1
-    })
+      quantity: 1,
+    });
 
     const session = await stripe.checkout.sessions.create({
-      success_url: `${origin}/verify?success=true&orderId=${newOrder._id}`, 
-      cancel_url:`${origin}/verify?success=false&orderId=${newOrder._id}`,
+      success_url: `${origin}/verify?success=true&orderId=${newOrder._id}`,
+      cancel_url: `${origin}/verify?success=false&orderId=${newOrder._id}`,
       line_items,
-      mode: 'payment'
-    })
+      mode: "payment",
+    });
 
-    res.json({ succuss: true, session_url: session.url});
-
+    res.json({ succuss: true, session_url: session.url });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
   }
-}
+};
 
-const verifyStripe = async (req, res)=>{
-  const {orderId, success, userId} = req.body;
+const verifyStripe = async (req, res) => {
+  const { orderId, success, userId } = req.body;
   try {
-    if(success === "true"){
-      await orderModel.findByIdAndUpdate(orderId, {payment: true})
-      await User.findByIdAndUpdate(userId, {cartData: {}})
-      res.json({success:true})
+    if (success === "true") {
+      await orderModel.findByIdAndUpdate(orderId, { payment: true });
+      await User.findByIdAndUpdate(userId, { cartData: {} });
+      res.json({ success: true });
     } else {
-      await orderModel.findByIdAndDelete(orderId)
-      res.json({success:false})
+      await orderModel.findByIdAndDelete(orderId);
+      res.json({ success: false });
     }
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
   }
-}
+};
 
 const userOrders = async (req, res) => {
   try {
@@ -126,26 +124,26 @@ const userOrders = async (req, res) => {
 const status = async (req, res) => {
   try {
     const { orderId, status } = req.body;
-    const order = await orderModel.findByIdAndUpdate(orderId)
+    const order = await orderModel.findByIdAndUpdate(orderId);
     if (!order) {
       return res.json({ success: false, message: "Order not found" });
     }
 
     order.status = status;
 
-    if(order.paymentMethod === "COD" && status === "Delivered"){
+    if (order.paymentMethod === "COD" && status === "Delivered") {
       order.payment = true;
     }
 
-    await order.save()
-    
-    res.json({success: true, message: "Status Update"})
+    await order.save();
+
+    res.json({ success: true, message: "Status Update" });
   } catch (error) {}
 };
 
 const allOrders = async (req, res) => {
   try {
-    const orders = await orderModel.find({}).sort({date: -1});
+    const orders = await orderModel.find({}).sort({ date: -1 });
     res.json({ success: true, orders });
   } catch (error) {
     console.log(error);
@@ -153,14 +151,56 @@ const allOrders = async (req, res) => {
   }
 };
 
-const orderNotification = async (req, res)=>{
+const orderNotification = async (req, res) => {
   try {
-    const count = await orderModel.countDocuments({status: "Order Placed"})
-    res.json({success:true, count})
+    const count = await orderModel.countDocuments({ status: "Order Placed" });
+    res.json({ success: true, count });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
   }
-}
+};
 
-export { placeOrderCOD, status, userOrders, allOrders, onlineStripeOrder, verifyStripe, orderNotification };
+const totalOrder = async (req, res) => {
+  try {
+    const totalOrders = await orderModel.countDocuments();
+
+    res.json({
+      success: true,
+      totalOrder: totalOrders,
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+const totalRevenue = async (req, res) => {
+  try {
+    const orders = await orderModel.find({ payment: true });
+
+    const totalPrice = orders.reduce((total, order) => {
+      return total + order.amount;
+    }, 0);
+
+    res.json({
+      success: true,
+      totalPrice,
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+export {
+  placeOrderCOD,
+  status,
+  userOrders,
+  allOrders,
+  onlineStripeOrder,
+  verifyStripe,
+  orderNotification,
+  totalOrder,
+  totalRevenue,
+};

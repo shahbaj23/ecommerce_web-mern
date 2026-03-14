@@ -18,6 +18,7 @@ import ReturnPolicy from "./pages/RetrunPolicy";
 import AboutUs from "./pages/AboutUs";
 import Contact from "./pages/Contact";
 import ExclusiveOffer from "./pages/ExclusiveOffer";
+import ScrollToTop from "./utils/ScrollToTop";
 
 function App() {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ function App() {
     <div className="bg-white ">
       <Navbar />
 
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />

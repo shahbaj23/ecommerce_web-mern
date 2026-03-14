@@ -8,16 +8,17 @@ import { addCart } from "../Product/CartSlice";
 import { lazy } from "react";
 import { Suspense } from "react";
 import ProductSkeleton from "../skeleton/ProductSkeleton";
+import ProductDetailSkeleton from "../skeleton/ProductDetailsSkeleton";
 
 const RelatedProducts = lazy(() => import("./RelatedProducts"));
 const AiRecommendation = lazy(() => import("./AiRecommendation"));
 
 export default function ProductDetail() {
   const [activeImage, setActiveImage] = useState("");
-  // const [product, setProduct] = useState(null);
   const [selectedSize, setSelectedSize] = useState("");
-
   const [err, setErr] = useState("");
+  const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
+  const [showZoom, setShowZoom] = useState(false);
 
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -72,7 +73,17 @@ export default function ProductDetail() {
     dispatch(addCart({ token, itemId: product._id, size: selectedSize }));
   };
 
-  if (loading) return <h1>Loading...</h1>;
+  const handleMouseMove = (e) => {
+    const { left, top, width, height } =
+      e.currentTarget.getBoundingClientRect();
+
+    const x = (e.clientX - left) / width;
+    const y = (e.clientY - top) / height;
+
+    setZoomPosition({ x, y });
+  };
+
+  if (loading) return <ProductDetailSkeleton />;
   if (error) return <h1>Error: {error}</h1>;
   if (!product) return <h1>No Product Found</h1>;
 
@@ -82,11 +93,30 @@ export default function ProductDetail() {
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10">
         <div>
-          <img
-            src={activeImage || "/placeholder.png"}
-            alt="product"
-            className="w-full h-[500px] object-cover rounded-xl shadow"
-          />
+          <div
+            className="relative w-full h-[500px] overflow-hidden rounded-xl border"
+            onMouseMove={handleMouseMove}
+            onMouseEnter={() => setShowZoom(true)}
+            onMouseLeave={() => setShowZoom(false)}
+          >
+            <img
+              src={activeImage || "/placeholder.png"}
+              alt="product"
+              className="w-full h-full object-cover cursor-zoom-in"
+            />
+
+            {showZoom && (
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  backgroundImage: `url(${activeImage})`,
+                  backgroundRepeat: "no-repeat",
+                  backgroundSize: "200%",
+                  backgroundPosition: `${zoomPosition.x * 100}% ${zoomPosition.y * 100}%`,
+                }}
+              />
+            )}
+          </div>
 
           <div className="flex gap-4 mt-4">
             {product?.images?.map((img, index) => (
