@@ -13,7 +13,12 @@ export const ProductProvider = ({ children }) => {
   const getAllUsers = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/user/all-users",
+        "http://localhost:3000/api/user/all-users", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        }
+          
       );
       setTotal(response.data.totalUsers);
     } catch (error) {
@@ -40,7 +45,11 @@ export const ProductProvider = ({ children }) => {
 
   const getTotalProduct = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/product/get-total-product");
+      const response = await axios.get("http://localhost:3000/api/product/get-total-product", {
+        headers: {
+            Authorization: `Bearer ${token}`,
+          },
+      });
 
       setTotalProducts(response.data.totalProducts);
     } catch (error) {

@@ -65,8 +65,6 @@ export default function AllProducts({ token }) {
 
   return (
     <div className="p-4 md:p-6 bg-gray-50 min-h-screen">
-
-      {/* Header */}
       <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
         <h2 className="text-2xl font-bold text-gray-800">All Products</h2>
 
@@ -79,7 +77,7 @@ export default function AllProducts({ token }) {
         />
       </div>
 
-      {/* MOBILE PRODUCT CARDS */}
+      {/* ---- MOBILE ---- */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:hidden">
 
         {currentItems.map((item) => (
@@ -119,7 +117,7 @@ export default function AllProducts({ token }) {
 
       </div>
 
-      {/* DESKTOP TABLE */}
+      {/* ---- DESKTOP TABLE ---- */}
       <div className="hidden md:block bg-white rounded-xl shadow border overflow-x-auto">
 
         <table className="w-full text-sm">
@@ -188,7 +186,6 @@ export default function AllProducts({ token }) {
 
       </div>
 
-      {/* Pagination */}
       <div className="flex justify-center mt-6 flex-wrap gap-2">
 
         <button
