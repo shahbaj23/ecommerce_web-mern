@@ -5,6 +5,14 @@ import { useEffect, useState } from "react";
 import Notification from "../Pages/Notification";
 import axios from "axios";
 
+const API = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
+// const API = import.meta.env.VITE_API_URL ;
+
+if (!API) {
+  throw new Error("VITE_API_URL is not defined");
+}
+
 export default function Navbar({ token }) {
 
   const [showNotify, setShowNotify] = useState(false);
@@ -13,7 +21,7 @@ export default function Navbar({ token }) {
   const fetchNotification = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:3000/api/order/notification",
+        `${API}/api/order/notification`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
