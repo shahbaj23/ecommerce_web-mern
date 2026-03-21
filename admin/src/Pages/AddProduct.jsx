@@ -4,6 +4,14 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 
+const API = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
+// const API = import.meta.env.VITE_API_URL ;
+
+if (!API) {
+  throw new Error("VITE_API_URL is not defined");
+}
+
 const reducer = (state, action) => {
   switch (action.type) {
     case "SET_FIELD":
@@ -86,7 +94,7 @@ export default function AddProduct({ token }) {
       if (image4) formData.append("image4", image4);
       
       const response = await axios.post(
-        "http://localhost:3000/api/product/add-product",
+        `${API}api/product/add-product`,
         formData,
         {
           headers: {

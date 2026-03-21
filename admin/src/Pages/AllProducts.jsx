@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
-const API = import.meta.env.VITE_API_URL || "http://localhost:3000/";
+const API = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 // const API = import.meta.env.VITE_API_URL ;
 
@@ -42,7 +42,7 @@ export default function AllProducts({ token }) {
   const removeProduct = async (id) => {
     try {
       const response = await axios.post(
-        `${API}api/product/remove-product`,
+        `${API}/api/product/remove-product`,
         { id },
         {
           headers: {

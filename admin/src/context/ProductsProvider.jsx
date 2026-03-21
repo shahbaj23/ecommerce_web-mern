@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ProductContext } from "./ProductContext";
 import axios from "axios";
 
-const API = import.meta.env.VITE_API_URL || "http://localhost:3000/";
+const API = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 // const API = import.meta.env.VITE_API_URL ;
 
@@ -24,7 +24,7 @@ export const ProductProvider = ({ children }) => {
   const getAllUsers = async () => {
     try {
       const response = await axios.get(
-        `${API}api/user/all-users`, {
+        `${API}/api/user/all-users`, {
           headers: {
             Authorization: `Bearer ${token}`,
           }
@@ -40,7 +40,7 @@ export const ProductProvider = ({ children }) => {
   const getAllOrder = async () => {
     try {
       const response = await axios.get(
-        `${API}api/order/get-all-orders`,
+        `${API}/api/order/get-all-orders`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -56,7 +56,7 @@ export const ProductProvider = ({ children }) => {
 
   const getTotalProduct = async () => {
     try {
-      const response = await axios.get(`${API}api/product/get-total-product`, {
+      const response = await axios.get(`${API}/api/product/get-total-product`, {
         headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -70,7 +70,7 @@ export const ProductProvider = ({ children }) => {
 
   const getTotalPrice = async () => {
     try {
-      const response = await axios.get(`${API}api/order/total-price`, {
+      const response = await axios.get(`${API}/api/order/total-price`, {
         headers:{
             Authorization: `Bearer ${token}`
         }
