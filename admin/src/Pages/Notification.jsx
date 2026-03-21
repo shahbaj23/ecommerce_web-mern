@@ -24,7 +24,6 @@ export default function Notification({showNotify, token}) {
               },
             }
           );
-          console.log(response.data.orders);
           setOrders(response.data.orders);
         } catch (error) {
           toast.error(error.message);

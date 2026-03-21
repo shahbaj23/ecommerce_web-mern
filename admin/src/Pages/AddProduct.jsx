@@ -94,7 +94,7 @@ export default function AddProduct({ token }) {
       if (image4) formData.append("image4", image4);
       
       const response = await axios.post(
-        `${API}api/product/add-product`,
+        `${API}/api/product/add-product`,
         formData,
         {
           headers: {
