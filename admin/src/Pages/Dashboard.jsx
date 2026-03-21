@@ -26,15 +26,12 @@ export default function Dashboard() {
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
 
-      {/* Page Title */}
       <h1 className="text-2xl font-bold text-gray-800 mb-6">
         Dashboard Overview
       </h1>
 
-      {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
-        {/* Users */}
         <div className="bg-white border border-gray-200 p-5 rounded-xl shadow-sm flex justify-between items-center">
           <div>
             <p className="text-gray-500 text-sm">Total Users</p>
@@ -46,7 +43,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Orders */}
         <div className="bg-white border border-gray-200 p-5 rounded-xl shadow-sm flex justify-between items-center">
           <div>
             <p className="text-gray-500 text-sm">Total Orders</p>
@@ -57,8 +53,6 @@ export default function Dashboard() {
             <FaShoppingCart />
           </div>
         </div>
-
-        {/* Products */}
         <div className="bg-white border border-gray-200 p-5 rounded-xl shadow-sm flex justify-between items-center">
           <div>
             <p className="text-gray-500 text-sm">Total Products</p>
@@ -72,7 +66,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Reviews */}
         <div className="bg-white border border-gray-200 p-5 rounded-xl shadow-sm flex justify-between items-center">
           <div>
             <p className="text-gray-500 text-sm">Total Reviews</p>
@@ -86,7 +79,6 @@ export default function Dashboard() {
 
       </div>
 
-      {/* Revenue Card */}
       <div className="mt-6 bg-white border border-gray-200 p-6 rounded-xl shadow-sm flex justify-between items-center">
 
         <div>
@@ -102,7 +94,6 @@ export default function Dashboard() {
 
       </div>
 
-      {/* Recent Orders Table */}
       <div className="bg-white p-6 rounded-xl shadow-sm mt-8 border border-gray-200">
 
         <div className="flex justify-between items-center mb-5">

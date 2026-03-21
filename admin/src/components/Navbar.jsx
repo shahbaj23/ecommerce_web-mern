@@ -36,12 +36,15 @@ export default function Navbar({ token }) {
   };
 
   useEffect(() => {
+
+    if(!token) return;
+
     fetchNotification();
 
     const interval = setInterval(fetchNotification, 5000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [token]);
 
   return (
     <div className="w-full h-16 flex justify-between items-center px-6 bg-white border-b shadow-sm sticky top-0 z-50">
@@ -77,7 +80,7 @@ export default function Navbar({ token }) {
           </button>
 
           {showNotify && (
-            <div className="absolute right-0 mt-3 w-72 bg-white rounded-xl shadow-lg border p-3">
+            <div className="absolute right-0  rounded-xl shadow-lg">
               <Notification showNotify={showNotify} token={token} />
             </div>
           )}
