@@ -2,6 +2,15 @@ import { useState } from "react";
 import { ProductContext } from "./ProductContext";
 import axios from "axios";
 
+const API = import.meta.env.VITE_API_URL || "http://localhost:3000/";
+
+// const API = import.meta.env.VITE_API_URL ;
+
+if (!API) {
+  throw new Error("VITE_API_URL is not defined");
+}
+
+
 export const ProductProvider = ({ children }) => {
   const [total, setTotal] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
@@ -10,10 +19,12 @@ export const ProductProvider = ({ children }) => {
 
   const token = localStorage.getItem("token");
 
+  console.log(token)
+
   const getAllUsers = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/user/all-users", {
+        `${API}api/user/all-users`, {
           headers: {
             Authorization: `Bearer ${token}`,
           }
@@ -29,7 +40,7 @@ export const ProductProvider = ({ children }) => {
   const getAllOrder = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/order/get-all-orders",
+        `${API}api/order/get-all-orders`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -45,7 +56,7 @@ export const ProductProvider = ({ children }) => {
 
   const getTotalProduct = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/product/get-total-product", {
+      const response = await axios.get(`${API}api/product/get-total-product`, {
         headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -59,7 +70,7 @@ export const ProductProvider = ({ children }) => {
 
   const getTotalPrice = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/order/total-price", {
+      const response = await axios.get(`${API}api/order/total-price`, {
         headers:{
             Authorization: `Bearer ${token}`
         }
