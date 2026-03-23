@@ -20,7 +20,6 @@ export default function Sidebar({ setToken }) {
 
   return (
     <>
-      {/* Mobile Menu Button */}
       <button
         className="md:hidden fixed top-4 left-4 text-gray-800 text-3xl z-50"
         onClick={() => setOpen(true)}

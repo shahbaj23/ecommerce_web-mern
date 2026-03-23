@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react"
 import axios from 'axios'
 import { toast } from "react-toastify"
+import {useNavigate} from "react-router-dom"
 
 const API = import.meta.env.VITE_API_URL || "http://localhost:3000";
-
-// const API = import.meta.env.VITE_API_URL ; 
 
 if (!API) {
   throw new Error("VITE_API_URL is not defined");
@@ -14,6 +13,7 @@ export default function Login({setToken}) {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const navigate = useNavigate()
 
   useEffect(() => {
     setEmail("admin@official.com");
@@ -27,6 +27,7 @@ export default function Login({setToken}) {
 
       if(response.data.success){
         setToken(response.data.token)
+        navigate("/")
       } else {
         toast.error(response.data.message)
       }
@@ -45,8 +46,7 @@ export default function Login({setToken}) {
         </h2>
 
         <form onSubmit={onHandleSubmit} className="space-y-6">
-          
-          {/* Email */}
+        
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
               Email Address
@@ -61,7 +61,6 @@ export default function Login({setToken}) {
             />
           </div>
 
-          {/* Password */}
           <div>
             <div className="flex justify-between items-center">
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
@@ -82,7 +81,6 @@ export default function Login({setToken}) {
             />
           </div>
 
-          {/* Button */}
           <button
             type="submit"
             className="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-2 rounded-md text-sm font-semibold shadow-md transition cursor-pointer"
